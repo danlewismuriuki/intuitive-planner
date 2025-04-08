@@ -1,0 +1,89 @@
+currentcomponentsmall
+Currentcomponentlarge
+Childlarge
+
+import axios from "axios";
+import { Currentcomponentlarge, Childlarge } from "src/types/models";
+
+const API_URL = process.env.QUASAR_APP_API_URL;
+
+export const currentcomponentsmallService = {
+  async getAllCurrentcomponentlarges(): Promise<Currentcomponentlarge[]> {
+    try {
+      const response = await axios.get<Currentcomponentlarge[]>(`${API_URL}/currentcomponentsmall`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching currentcomponentsmalls:", error);
+      throw error;
+    }
+  },
+
+  async getCurrentcomponentlargesByCustomerAndDataHallId(
+    customerId: number,
+    dataHallId: number
+  ): Promise<Currentcomponentlarge[]> {
+    try {
+      const response = await axios.get<Currentcomponentlarge[]>(
+        `${API_URL}/customers/${customerId}/dataHalls/${dataHallId}/currentcomponentsmall`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(
+        `Error fetching currentcomponentsmalls for customer ${customerId} and dataHall ${dataHallId}:`,
+        error
+      );
+      throw error;
+    }
+  },
+
+  async getCurrentcomponentlargeById(id: number): Promise<Currentcomponentlarge> {
+    try {
+      const response = await axios.get<Currentcomponentlarge>(`${API_URL}/currentcomponentsmall/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching currentcomponentsmall with id ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async createCurrentcomponentlarge(currentcomponentsmall: Omit<Currentcomponentlarge, "id">): Promise<Currentcomponentlarge> {
+    try {
+      const response = await axios.post<Currentcomponentlarge>(`${API_URL}/currentcomponentsmall`, currentcomponentsmall);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating currentcomponentsmall:", error);
+      throw error;
+    }
+  },
+
+  async updateCurrentcomponentlarge(id: number, currentcomponentsmall: Partial<Currentcomponentlarge>): Promise<Currentcomponentlarge> {
+    try {
+      const response = await axios.put<Currentcomponentlarge>(`${API_URL}/currentcomponentsmall/${id}`, currentcomponentsmall);
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating currentcomponentsmall with id ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async deleteCurrentcomponentlarge(id: number): Promise<void> {
+    try {
+      await axios.delete(`${API_URL}/currentcomponentsmall/${id}`);
+    } catch (error) {
+      console.error(`Error deleting currentcomponentsmall with id ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async getChildlarges(customerId: number, dataHallId: number): Promise<Childlarge[]> {
+    try {
+      const response = await axios.get<Childlarge[]>(
+        `${API_URL}/customers/${customerId}/dataHalls/${dataHallId}/currentcomponentsmallType`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching currentcomponentsmall types:", error);
+      throw error;
+    }
+  }
+};
